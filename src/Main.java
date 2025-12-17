@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         // --- Create objects (instances of classes) ---
-        Shelter shelter1 = new Shelter("Test", "52 Turan Ave.", 4.6);
+        Shelter shelter1 = new Shelter("Test1", "52 Turan Ave.", 4.6);
         Shelter shelter2 = new Shelter("Paw patrol", "14 Tole Bi St.", 3.9);
         Shelter shelter3 = new Shelter("Zootopia", "123 Uly Dala St.", 5.0);
         Pet pet1 = new Pet("Coco", "Dog", 5, false, shelter2);
