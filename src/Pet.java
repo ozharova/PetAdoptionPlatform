@@ -1,4 +1,4 @@
-public class Pet {
+public abstract class Pet {
     // Attributes
     private String name;
     private String type;
@@ -53,17 +53,38 @@ public class Pet {
     public void setShelter(Shelter shelter) {
         this.shelter = shelter;
     }
-    // ---- Methods ----
+    // --- Abstract method (abstraction + polymorphism) ---
+    public abstract String getPetSound();
+
+    // --- Methods ---
     public void printInfo() {
-        String status;
-        if(adopted) {
-            status = "Already adopted";
+        if (adopted) {
             System.out.println("Name: " + name + ", Type: " + type +
-                    ", Age: " + age + ", Status: " + status);
+                    ", Age: " + age + ", Status: Already adopted");
         } else {
-            status = "Looking for a family";
             System.out.println("Name: " + name + ", Type: " + type +
-                    ", Age: " + age + ", Status: " + status + ", Shelter: " + "\"" + shelter.getName() + "\"");
+                    ", Age: " + age + ", Status: Looking for a family, Shelter: \"" +
+                    shelter.getName() + "\"");
         }
+    }
+
+    // --- toString / equals / hashCode ---
+    @Override
+    public String toString() {
+        return "Pet{name='" + name + "', type='" + type +
+                "', age=" + age + ", adopted=" + adopted + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pet)) return false;
+        Pet pet = (Pet) o;
+        return name.equals(pet.name) && type.equals(pet.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() + type.hashCode();
     }
 }
