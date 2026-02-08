@@ -1,3 +1,20 @@
+package com.petadoption.model;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import java.util.Objects;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",
+        visible = true
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+        @JsonSubTypes.Type(value = Cat.class, name = "Cat")
+})
 public abstract class Pet {
     // Attributes
     private String name;
@@ -5,7 +22,11 @@ public abstract class Pet {
     private int age;
     private boolean adopted;
     private Shelter shelter;
+
     // Constructors
+    protected Pet() {
+    }
+
     public Pet(String name, String type, int age, boolean adopted, Shelter shelter) {
         this.name = name;
         this.type = type;
@@ -13,8 +34,8 @@ public abstract class Pet {
         this.adopted = adopted;
         this.shelter = shelter;
     }
+
     // ---- Getters and Setters -----
-    // for name:
     public String getName() {
         return name;
     }
@@ -22,7 +43,6 @@ public abstract class Pet {
         this.name = name;
     }
 
-    // for type:
     public String getType() {
         return type;
     }
@@ -30,7 +50,6 @@ public abstract class Pet {
         this.type = type;
     }
 
-    // for age:
     public int getAge() {
         return age;
     }
@@ -38,7 +57,6 @@ public abstract class Pet {
         this.age = age;
     }
 
-    // for adopted:
     public boolean getAdopted() {
         return adopted;
     }
@@ -46,13 +64,13 @@ public abstract class Pet {
         this.adopted = adopted;
     }
 
-    //for Shelters
     public Shelter getShelter() {
         return shelter;
     }
     public void setShelter(Shelter shelter) {
         this.shelter = shelter;
     }
+
     // --- Abstract method (abstraction + polymorphism) ---
     public abstract String getPetSound();
 
@@ -62,9 +80,10 @@ public abstract class Pet {
             System.out.println("Name: " + name + ", Type: " + type +
                     ", Age: " + age + ", Status: Already adopted");
         } else {
+            String shelterName = (shelter != null) ? shelter.getName() : "Unknown";
             System.out.println("Name: " + name + ", Type: " + type +
                     ", Age: " + age + ", Status: Looking for a family, Shelter: \"" +
-                    shelter.getName() + "\"");
+                    shelterName + "\"");
         }
     }
 
@@ -80,11 +99,11 @@ public abstract class Pet {
         if (this == o) return true;
         if (!(o instanceof Pet)) return false;
         Pet pet = (Pet) o;
-        return name.equals(pet.name) && type.equals(pet.type);
+        return Objects.equals(name, pet.name) && Objects.equals(type, pet.type);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + type.hashCode();
+        return Objects.hash(name, type);
     }
 }
